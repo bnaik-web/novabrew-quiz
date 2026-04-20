@@ -54,17 +54,25 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#fcfcfc] text-[#333] flex items-center justify-center p-6 font-sans">
-      <div className="max-w-xl w-full bg-white p-8 md:p-12 border border-[#eaeaea] rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.04)] text-center transition-all">
+    <main className="min-h-screen bg-stone-100 text-stone-800 flex items-center justify-center p-6 font-sans border-t-8 border-amber-800 relative z-0">
+      <div className="max-w-xl w-full bg-[#FAF7F2] p-8 md:p-12 shadow-xl shadow-stone-300/50 rounded-2xl text-center transition-all border border-stone-200 relative overflow-hidden">
+        
+        {/* Subtle decorative coffee aesthetics */}
+        <div className="absolute top-[-50px] left-[-50px] w-32 h-32 bg-amber-200 rounded-full mix-blend-multiply filter blur-2xl opacity-60 z-[-1]"></div>
+        <div className="absolute bottom-[-50px] right-[-50px] w-40 h-40 bg-orange-200 rounded-full mix-blend-multiply filter blur-2xl opacity-60 z-[-1]"></div>
+
         {gameState === "start" && (
-          <div className="animate-in fade-in zoom-in duration-500">
-            <h1 className="text-3xl font-medium tracking-tight mb-4 text-[#111]">NovaBrew Coffee Taste Profile</h1>
-            <p className="text-[#555] mb-8 leading-relaxed">
-              Find your coffee personality and get a perfectly matched bean recommendation for your morning cup.
+          <div className="relative animate-in fade-in zoom-in duration-500 z-10">
+            <div className="mb-6 flex justify-center">
+              <span className="text-5xl drop-shadow-sm">☕</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-amber-900">NovaBrew Taste Quiz</h1>
+            <p className="text-stone-600 mb-8 leading-relaxed md:text-lg">
+              Find your unique coffee personality and get a perfectly matched bean recommendation for your morning cup.
             </p>
             <button 
               onClick={handleStart}
-              className="px-8 py-3 bg-[#111] text-white rounded-md font-medium tracking-wide hover:bg-[#333] transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-[#111] cursor-pointer"
+              className="px-8 py-3 bg-amber-800 text-white rounded-full font-medium tracking-wide hover:bg-amber-900 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-amber-800 shadow-lg shadow-amber-900/20 cursor-pointer"
             >
               Start the Quiz
             </button>
@@ -72,11 +80,14 @@ export default function Home() {
         )}
 
         {gameState === "quiz" && (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 text-left">
-            <div className="text-xs font-semibold text-[#888] tracking-widest uppercase mb-4">
-              Question {currentQuestionIndex + 1} of {questions.length}
+          <div className="relative animate-in fade-in slide-in-from-bottom-4 duration-500 text-left z-10">
+            <div className="flex justify-between items-center mb-6">
+              <div className="text-xs font-bold text-amber-900/70 tracking-widest uppercase">
+                Question {currentQuestionIndex + 1} of {questions.length}
+              </div>
+              <div className="text-2xl drop-shadow-sm">🌿</div>
             </div>
-            <h2 className="text-xl md:text-2xl font-medium mb-8 text-[#111] leading-snug">
+            <h2 className="text-xl md:text-2xl font-bold mb-8 text-amber-900 leading-snug">
               {questions[currentQuestionIndex].question}
             </h2>
             <div className="space-y-4">
@@ -84,7 +95,7 @@ export default function Home() {
                 <button
                   key={idx}
                   onClick={() => handleOptionClick(option.type)}
-                  className="w-full text-left p-4 border border-[#eaeaea] rounded-lg text-[#555] bg-transparent hover:border-[#888] hover:text-[#111] hover:shadow-[0_2px_8px_rgba(0,0,0,0.05)] hover:-translate-y-[1px] transition-all cursor-pointer"
+                  className="w-full text-left p-4 border-2 border-stone-200 rounded-xl text-stone-700 bg-white/80 backdrop-blur-sm hover:border-amber-700 hover:bg-amber-50 hover:text-amber-900 hover:shadow-md transition-all cursor-pointer font-medium"
                 >
                   {option.text}
                 </button>
@@ -94,20 +105,25 @@ export default function Home() {
         )}
 
         {gameState === "results" && (
-          <div className="animate-in fade-in zoom-in duration-700 text-left">
-            <p className="text-xs font-semibold text-[#888] tracking-widest uppercase mb-2">Your Personality Is</p>
-            <h2 className="text-3xl font-medium mb-4 text-[#111]">{calculateResult().name}</h2>
-            <p className="text-[#555] mb-8 leading-relaxed">{calculateResult().description}</p>
+          <div className="relative animate-in fade-in zoom-in duration-700 text-left z-10">
+             <div className="text-center mb-6 text-4xl drop-shadow-sm">✨☕✨</div>
+            <p className="text-xs text-center font-bold text-amber-900/70 tracking-widest uppercase mb-2">Your Personality Is</p>
+            <h2 className="text-3xl text-center md:text-4xl font-bold mb-4 text-amber-900">{calculateResult().name}</h2>
             
-            <div className="bg-[#fcfcfc] border border-[#eaeaea] p-6 rounded-lg mb-8">
-              <p className="text-xs font-semibold text-[#888] tracking-widest uppercase mb-2">Your Coffee Match</p>
-              <h3 className="text-xl font-medium mb-2 text-[#111]">{calculateResult().coffee}</h3>
-              <p className="text-[#555] leading-relaxed">{calculateResult().coffeeDescription}</p>
+            <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-stone-200 mb-6">
+               <h3 className="text-sm uppercase font-bold text-stone-500 mb-2 tracking-wider">What this means:</h3>
+               <p className="text-stone-700 leading-relaxed italic font-medium">"{calculateResult().description}"</p>
+            </div>
+            
+            <div className="bg-amber-900 p-6 md:p-8 rounded-xl mb-8 text-white shadow-xl">
+              <p className="text-xs font-bold text-amber-300 tracking-widest uppercase mb-2">Your Perfect Coffee Match</p>
+              <h3 className="text-2xl font-bold mb-2">{calculateResult().coffee}</h3>
+              <p className="text-amber-50 leading-relaxed opacity-95">{calculateResult().coffeeDescription}</p>
             </div>
 
             <button 
               onClick={handleRetake}
-              className="w-full py-3 bg-[#111] text-white rounded-md font-medium tracking-wide hover:bg-[#333] transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-[#111] cursor-pointer"
+              className="w-full py-3 bg-stone-200 text-stone-800 rounded-full font-bold tracking-wide hover:bg-stone-300 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-stone-400 cursor-pointer shadow-sm"
             >
               Retake Quiz
             </button>
